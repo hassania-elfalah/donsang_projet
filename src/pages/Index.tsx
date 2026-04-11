@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import {
-  Heart, UserPlus, ClipboardList, Link2, ArrowRight, Droplets, MapPin, Phone
+  Heart, UserPlus, ClipboardList, Link2, ArrowRight, Droplets, MapPin, Phone,
+  FileText, Share2, Search, Bell, Shield
 } from "lucide-react";
 
 
@@ -31,6 +32,39 @@ const stats = [
   { value: "24/7", label: "Accès continu" },
   { value: "100%", label: "Données sécurisées" },
   { value: "< 1min", label: "Recherche de donneurs" },
+];
+
+const features = [
+  {
+    icon: Droplets,
+    title: "Groupe sanguin",
+    description: "Enregistrez votre groupe sanguin ABO + Rh pour un accès rapide en cas d'urgence.",
+  },
+  {
+    icon: FileText,
+    title: "Dossier médical complet",
+    description: "Conservez vos informations médicales, allergies et traitements en un seul endroit sécurisé.",
+  },
+  {
+    icon: Share2,
+    title: "Lien de partage sécurisé",
+    description: "Générez un lien unique pour que votre médecin consulte votre dossier en lecture seule.",
+  },
+  {
+    icon: Search,
+    title: "Recherche de donneurs",
+    description: "Les hôpitaux trouvent des donneurs compatibles par groupe sanguin et proximité en quelques secondes.",
+  },
+  {
+    icon: Bell,
+    title: "Alertes d'urgence",
+    description: "Recevez des notifications quand un hôpital proche a besoin de votre groupe sanguin.",
+  },
+  {
+    icon: Shield,
+    title: "Sécurité maximale",
+    description: "Vos données médicales sont chiffrées et protégées selon les normes de confidentialité locales.",
+  },
 ];
 
 export default function Index() {
@@ -97,6 +131,32 @@ export default function Index() {
                 </div>
                 <h3 className="text-lg font-semibold mb-2">{step.title}</h3>
                 <p className="text-sm text-muted-foreground">{step.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-16 md:py-24 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Nos Fonctionnalités</h2>
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              Tout ce dont vous avez besoin pour gérer vos informations médicales et faciliter le don de sang.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {features.map((f) => (
+              <div
+                key={f.title}
+                className="bg-card rounded-xl p-6 border border-border hover:shadow-lg transition-transform hover:-translate-y-1 duration-300"
+              >
+                <div className="h-12 w-12 rounded-lg bg-accent flex items-center justify-center mb-4">
+                  <f.icon className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">{f.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{f.description}</p>
               </div>
             ))}
           </div>

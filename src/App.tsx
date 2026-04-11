@@ -11,6 +11,7 @@ import Features from "./pages/Features.tsx";
 import Contact from "./pages/Contact.tsx";
 import PatientDashboard from "./pages/PatientDashboard.tsx";
 import HospitalDashboard from "./pages/HospitalDashboard.tsx";
+import MedicalPassport from "./pages/MedicalPassport.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -28,8 +29,9 @@ const App = () => (
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/patient" element={<PatientDashboard />} />
-          <Route path="/hospital" element={<HospitalDashboard />} />
+           <Route path="/patient" element={<PatientDashboard />} />
+           <Route path="/passeport" element={<MedicalPassport />} />
+           <Route path="/hospital" element={<HospitalDashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

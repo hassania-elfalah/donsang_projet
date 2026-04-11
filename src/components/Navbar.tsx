@@ -5,7 +5,7 @@ import { Menu, X, Droplets } from "lucide-react";
 
 const navItems = [
   { label: "Accueil", path: "/" },
-  { label: "Fonctionnalités", path: "/fonctionnalites" },
+  { label: "Passeport", path: "/passeport" },
   { label: "Contact", path: "/contact" },
 ];
 
