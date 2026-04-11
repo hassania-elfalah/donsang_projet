@@ -1,3 +1,3 @@
-# Welcome to your Lovable project
+# Projet Sang
 
 TODO: Document your project here
