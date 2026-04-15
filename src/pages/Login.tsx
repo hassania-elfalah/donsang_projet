@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,6 +7,17 @@ import { Mail, Lock, Eye, EyeOff, Droplets } from "lucide-react";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email.toLowerCase().includes("hopital") || email.toLowerCase().includes("chu")) {
+      navigate('/hospital');
+    } else {
+      navigate('/patient');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#faf8f8] flex flex-col items-center justify-center p-6 py-1">
@@ -26,15 +37,17 @@ export default function Login() {
         {/* Main Card */}
         <div className="w-full bg-white rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] border border-slate-100 p-8 md:p-12 space-y-8">
 
-          <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-6" onSubmit={handleLogin}>
             <div className="space-y-2">
              <Label htmlFor="email font-bold" title="email" className="text-slate-900 font-bold">Email</Label>
-              <Input 
-                id="email" 
-                type="email" 
-                placeholder="Votre Email" 
-                className="h-12 rounded-xl border-slate-200 focus:border-primary transition-all px-6 text-base" 
-              />
+                <Input 
+                  id="email" 
+                  type="email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Votre Email" 
+                  className="h-12 rounded-xl border-slate-200 focus:border-primary transition-all px-6 text-base" 
+                />
             </div>
 
             <div className="space-y-2">
@@ -59,7 +72,7 @@ export default function Login() {
               </div>
             </div>
 
-            <Button size="lg" className="w-full h-12 rounded-lg bg-primary text-white text-md font-black uppercase tracking-widest shadow-xl shadow-primary/30 hover:shadow-primary/50 transition-all">
+            <Button type="submit" size="lg" className="w-full h-12 rounded-lg bg-primary text-white text-md font-black uppercase tracking-widest shadow-xl shadow-primary/30 hover:shadow-primary/50 transition-all">
               Se connecter
             </Button>
           </form>
