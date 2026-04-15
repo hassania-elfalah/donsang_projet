@@ -6,7 +6,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import Login from "./pages/Login.tsx";
 import Register from "./pages/Register.tsx";
-import Features from "./pages/Features.tsx";
 import Contact from "./pages/Contact.tsx";
 import PatientDashboard from "./pages/PatientDashboard.tsx";
 import HospitalDashboard from "./pages/HospitalDashboard.tsx";
@@ -23,7 +22,6 @@ const App = () => (
       <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/fonctionnalites" element={<Features />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

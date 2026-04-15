@@ -18,10 +18,7 @@ export function Navbar() {
       {/* Left: Logo */}
       <div className="flex items-center px-6 md:px-12 relative z-10">
         <Link to="/" className="flex items-center gap-2 group">
-          <div className="h-10 w-10 md:h-12 md:w-12 rounded-full bg-primary flex items-center justify-center shadow-lg shadow-primary/20 group-hover:scale-110 transition-transform">
-            <Droplets className="h-6 w-6 md:h-7 md:w-7 text-white fill-white" />
-          </div>
-          <span className="hidden sm:block text-xl md:text-2xl font-black text-slate-900 tracking-tighter">DonSang</span>
+         <img src="logo_sang.png" alt=""  width={130} height={130}/>
         </Link>
       </div>
 
