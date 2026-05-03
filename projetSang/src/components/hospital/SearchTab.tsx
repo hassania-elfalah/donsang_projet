@@ -78,6 +78,7 @@ export function SearchTab({ selectedBlood, setSelectedBlood, city, setCity }: an
                 value={selectedBlood}
                 onChange={(e) => setSelectedBlood(e.target.value)}
               >
+                <option value="">Sélectionner</option>
                 {bloodGroups.map((g) => (
                   <option key={g} value={g}>{g}</option>
                 ))}

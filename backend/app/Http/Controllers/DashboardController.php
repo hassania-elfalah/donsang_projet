@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Patient;
 use App\Models\BloodDonor;
 use App\Models\Alert;
+use App\Models\Hospital;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 
@@ -14,7 +15,7 @@ class DashboardController extends Controller
     public function getStats()
     {
         $donorsCount = BloodDonor::count();
-        $alertsCount = Alert::count();
+        $alertsCount = Alert::where('status','!=','Clôturée')-> count();
         $patientsCount = Patient::count();
         
         // Données pour le graphique (par mois de l'année en cours)
@@ -162,5 +163,74 @@ class DashboardController extends Controller
     public function getAlerts()
     {
         return response()->json(Alert::with('hospital')->get());
+    }
+
+    public function storeAlert(Request $request)
+    {
+        $validated = $request->validate([
+            'hospital_id' => 'required|exists:hospitals,id',
+            'blood_type' => 'required|string',
+            'urgency_level' => 'required|string',
+            'quantity' => 'nullable|string',
+            'description' => 'nullable|string',
+            'status' => 'nullable|string'
+        ]);
+
+        $alert = Alert::create($validated);
+        return response()->json($alert->load('hospital'), 201);
+    }
+
+    public function updateAlert(Request $request, $id)
+    {
+        $alert = Alert::findOrFail($id);
+        
+        $validated = $request->validate([
+            'blood_type' => 'sometimes|required|string',
+            'urgency_level' => 'sometimes|required|string',
+            'quantity' => 'nullable|string',
+            'description' => 'nullable|string',
+            'status' => 'nullable|string'
+        ]);
+
+        $alert->update($validated);
+        return response()->json($alert->load('hospital'));
+    }
+
+    public function deleteAlert($id)
+    {
+        $alert = Alert::findOrFail($id);
+        $alert->delete();
+        return response()->json(['message' => 'Alerte supprimée avec succès']);
+    }
+
+    public function getHospitalSettings()
+    {
+        // Pour l'instant on prend le premier hôpital (CHU Casablanca)
+        // En prod, on prendrait l'utilisateur authentifié
+        $hospital = Hospital::first();
+        return response()->json($hospital);
+    }
+
+    public function updateHospitalSettings(Request $request)
+    {
+        $hospital = Hospital::first();
+        
+        $validated = $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+            'city' => 'sometimes|required|string|max:255',
+            'email' => 'sometimes|required|email|unique:hospitals,email,' . $hospital->id,
+            'address' => 'nullable|string|max:500',
+            'phone' => 'nullable|string|max:50',
+            'password' => 'nullable|string|min:6'
+        ]);
+
+        if (!empty($validated['password'])) {
+            $validated['password'] = \Illuminate\Support\Facades\Hash::make($validated['password']);
+        } else {
+            unset($validated['password']);//annuler le chemps password si n'est pas vide pour n'enregestre pas vide
+        }
+
+        $hospital->update($validated);
+        return response()->json($hospital);
     }
 }

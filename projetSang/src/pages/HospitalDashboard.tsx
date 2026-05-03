@@ -11,6 +11,7 @@ import { PatientsTab } from "@/components/hospital/PatientsTab";
 import { SearchTab } from "@/components/hospital/SearchTab";
 import { StatsTab } from "@/components/hospital/StatsTab";
 import { AlertsTab } from "@/components/hospital/AlertsTab";
+import { SettingsTab } from "@/components/hospital/SettingsTab";
 import TableBord from "@/components/hospital/TableBord";
 
 const tabs = [
@@ -25,8 +26,16 @@ export default function HospitalDashboard() {
   const [activeTab, setActiveTab] = useState("table");
   const [showAddPatient, setShowAddPatient] = useState(false);
   const [showNewAlert, setShowNewAlert] = useState(false);
-  const [selectedBlood, setSelectedBlood] = useState("O+");
+  const [selectedBlood, setSelectedBlood] = useState("");
   const [city, setCity] = useState("");
+  const [hospitalInfo, setHospitalInfo] = useState<any>(null);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/api/hospital/settings")
+      .then(res => res.json())
+      .then(data => setHospitalInfo(data))
+      .catch(console.error);
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
@@ -41,11 +50,13 @@ export default function HospitalDashboard() {
 
           <div className="flex items-center gap-4">
             <div className="hidden md:flex flex-col items-end">
-              <span className="text-sm font-bold text-slate-900">CHU Casablanca</span>
-              <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold text-right">Centre Hospitalier Universitaire</span>
+              <span className="text-sm font-bold text-slate-900">{hospitalInfo?.name.toUpperCase() || "Chargement..."}</span>
+              <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold text-right">
+                {hospitalInfo?.city || "Centre Hospitalier"}
+              </span>
             </div>
             <div className="h-10 w-10 rounded-xl bg-primary text-white flex items-center justify-center shadow-lg shadow-primary/20 font-bold border-2 border-white">
-              H
+              {hospitalInfo?.name ? hospitalInfo.name.charAt(0).toUpperCase() : "H"}
             </div>
             <Link to="/">
               <Button variant="ghost" size="icon" className="text-slate-400 hover:text-destructive hover:bg-destructive/5 transition-all">
@@ -83,8 +94,14 @@ export default function HospitalDashboard() {
 
               <div className="pt-4 mt-4 border-t border-slate-100">
                 <p className="px-4 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Support & Config</p>
-                <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-primary transition-all group">
-                  <Settings className="h-5 w-5 text-slate-400 group-hover:text-primary" />
+                <button 
+                  onClick={() => setActiveTab("settings")}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all group ${activeTab === "settings" 
+                    ? "bg-primary text-white shadow-lg shadow-primary/20" 
+                    : "text-slate-600 hover:bg-slate-50 hover:text-primary"
+                  }`}
+                >
+                  <Settings className={`h-5 w-5 ${activeTab === "settings" ? "text-white" : "text-slate-400 group-hover:text-primary"}`} />
                   Paramètres
                 </button>
               </div>
@@ -100,7 +117,17 @@ export default function HospitalDashboard() {
               {activeTab === "patients" && <PatientsTab showAddPatient={showAddPatient} setShowAddPatient={setShowAddPatient} />}
               {activeTab === "search" && <SearchTab selectedBlood={selectedBlood} setSelectedBlood={setSelectedBlood} city={city} setCity={setCity} />}
               {activeTab === "stats" && <StatsTab />}
-              {activeTab === "alerts" && <AlertsTab showNewAlert={showNewAlert} setShowNewAlert={setShowNewAlert} />}
+              {activeTab === "alerts" && (
+                <AlertsTab 
+                  showNewAlert={showNewAlert} 
+                  setShowNewAlert={setShowNewAlert}
+                  onViewDonors={(bloodType: string) => {
+                    setSelectedBlood(bloodType);
+                    setActiveTab("search");
+                  }}
+                />
+              )}
+              {activeTab === "settings" && <SettingsTab />}
             </div>
           </main>
         </div>

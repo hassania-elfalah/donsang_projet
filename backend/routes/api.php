@@ -17,3 +17,8 @@ Route::get('/hospital/search-donors', [DashboardController::class, 'searchDonors
 Route::put('/hospital/donors/{id}', [DashboardController::class, 'updateDonor']);
 Route::get('/hospital/statistiques', [DashboardController::class, 'getStatistiques']);
 Route::get('/hospital/alerts', [DashboardController::class, 'getAlerts']);
+Route::post('/hospital/alerts', [DashboardController::class, 'storeAlert']);
+Route::put('/hospital/alerts/{id}', [DashboardController::class, 'updateAlert']);
+Route::delete('/hospital/alerts/{id}', [DashboardController::class, 'deleteAlert']);
+Route::get('/hospital/settings', [DashboardController::class, 'getHospitalSettings']);
+Route::put('/hospital/settings', [DashboardController::class, 'updateHospitalSettings']);

@@ -220,11 +220,11 @@ export function PatientsTab({ showAddPatient, setShowAddPatient }: any) {
             </div>
             <div className="space-y-1.5">
               <label className="text-sm font-medium text-muted-foreground">Taille (cm)</label>
-              <Input placeholder="entre votre taille" className="bg-muted/30 border-transparent focus:bg-background" value={formData.height} onChange={(e) => setFormData({...formData, height: e.target.value})} />
+              <Input type="number" placeholder="entre votre taille" className="bg-muted/30 border-transparent focus:bg-background" value={formData.height} onChange={(e) => setFormData({...formData, height: e.target.value})} />
             </div>
             <div className="space-y-1.5">
               <label className="text-sm font-medium text-muted-foreground">Poids (kg)</label>
-              <Input placeholder="entre votre poids" className="bg-muted/30 border-transparent focus:bg-background" value={formData.weight} onChange={(e) => setFormData({...formData, weight: e.target.value})} />
+              <Input type="number" placeholder="entre votre poids" className="bg-muted/30 border-transparent focus:bg-background" value={formData.weight} onChange={(e) => setFormData({...formData, weight: e.target.value})} />
             </div>
             <div className="space-y-1.5">
               <label className="text-sm font-medium text-muted-foreground">Groupe sanguin</label>
